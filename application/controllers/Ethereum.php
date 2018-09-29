@@ -45,7 +45,7 @@ class Ethereum extends REST_Controller {
 		});
 		$arv = [
 			"status" => (trim($this->wallet) ? "success" : "error"),
-			"wallet" => $this->wallet
+			"wallet" => "0x".$this->wallet
 		];
 		$this->response($arv);
 		//print_r($bitcoin->getaddressesbyaccount("Test"));
@@ -79,7 +79,7 @@ class Ethereum extends REST_Controller {
 
 
 	public function deposit_get(){
-		$bitcoin = $this->connect();
+		$web3 = $this->connect();
 		
 		foreach ($this->account as $key => $value) {
 			$web3->eth->getBalance($value, function ($err, $balance) {
