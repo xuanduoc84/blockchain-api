@@ -18,9 +18,7 @@ class Ethereum extends REST_Controller {
 		$web3 =  new Web3(new HttpProvider(new HttpRequestManager('http://127.0.0.1:8545', 5)));
 
 		//$web3->personal->batch(true);
-		$web3->personal->listAccounts(function($err, $data){
-			$this->account = $data;
-		});
+		
 		return $web3;
 	}
 	public function index_get()
@@ -76,23 +74,44 @@ class Ethereum extends REST_Controller {
 		$this->connect();
 		$wallet = $this->input->post("wallet");
 		
-		if(in_array($wallet, $this->account)){
-			$arv = [
-				"status" => "success",
-				"wallet" => $wallet
-			];
-		}else{
-			$arv = [
-				"status" => "error"
-			];
-		}
-		$this->response($arv);
+
+		$web3->personal->listAccounts(function($err, $data) use($wallet){
+			
+			if(in_array($wallet, $data)){
+					$arv = [
+						"status" => "success",
+						"wallet" => $wallet
+					];
+				}else{
+					$arv = [
+						"status" => "error"
+					];
+				}
+				$this->response($arv);
+		});
+		$this->response(["status" => "error"]);
+		
 	}
 
 
 	public function deposit_get(){
 		$web3 = $this->connect();
-		print_r($this->account);
+		$web3->personal->listAccounts(function($err, $data) use($wallet){
+			
+			if(in_array($wallet, $data)){
+					$arv = [
+						"status" => "success",
+						"wallet" => $wallet
+					];
+				}else{
+					$arv = [
+						"status" => "error"
+					];
+				}
+				$this->response($arv);
+		});
+		$this->response(["status" => "error"]);
+		
 		foreach ($this->account as $key => $value) {
 			$web3->eth->getBalance($value, function ($err, $balance) {
 				if((float)$balance->toString() > 0.001){
