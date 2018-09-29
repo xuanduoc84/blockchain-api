@@ -19,7 +19,7 @@ class Api extends REST_Controller {
             ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
 	}
 
-	public function wallet_get(){
+	public function wallet_post(){
 		$account = $this->input->post("account");
 		$bitcoin = $this->connect();
 
