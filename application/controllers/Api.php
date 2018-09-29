@@ -24,7 +24,7 @@ class Api extends REST_Controller {
 		$bitcoin = $this->connect();
 
 		//print_r($bitcoin->getnewaddress("Test"));
-		$wallet = $bitcoin->getnewaddress($account);
+		$wallet = $bitcoin->getnewaddress("SmartExchange");
 		$arv = [
 			"status" => (trim($wallet) ? "success" : "error"),
 			"wallet" => $wallet
