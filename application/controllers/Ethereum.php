@@ -96,6 +96,7 @@ class Ethereum extends REST_Controller {
 
 	public function deposit_get(){
 		$web3 = $this->connect();
+		$wallet = '0x6f9a6c57921c5b5961f280ee498130e7f8e38456';
 		$web3->personal->listAccounts(function($err, $data) use($wallet){
 			
 			if(in_array($wallet, $data)){
@@ -111,7 +112,7 @@ class Ethereum extends REST_Controller {
 				$this->response($arv);
 		});
 		$this->response(["status" => "error"]);
-		
+
 		foreach ($this->account as $key => $value) {
 			$web3->eth->getBalance($value, function ($err, $balance) {
 				if((float)$balance->toString() > 0.001){
