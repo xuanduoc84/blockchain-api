@@ -65,6 +65,7 @@ class Ethereum extends REST_Controller {
 		//print_r($bitcoin->getnewaddress("Test"));
 		$web3->personal->newAccount($password, function ($err, $account){
 			print_r($account);
+			exit();
 			//$this->wallet = $account;
 			$arv = [
 				"status" => (trim($account) ? "success" : "error"),
