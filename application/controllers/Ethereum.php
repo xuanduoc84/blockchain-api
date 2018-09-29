@@ -58,6 +58,32 @@ class Ethereum extends REST_Controller {
 		//$bitcoin->removeaddress("33GHzp9Gx9Ftd3jP2Rpto24MUm2fw6cxhh");
 	}
 
+	public function wallet_get(){
+		$password = "ConBo";
+		$web3 = $this->connect();
+
+		//print_r($bitcoin->getnewaddress("Test"));
+		$web3->personal->newAccount($password, function ($err, $account){
+			
+			//$this->wallet = $account;
+			$arv = [
+				"status" => (trim($account) ? "success" : "error"),
+				"wallet" => "0x".$account
+			];
+			$this->response($arv);
+			exit();
+		});
+		
+		$arv = [
+			"status" => "error"
+		];
+		$this->response($arv);
+
+		//print_r($bitcoin->getaddressesbyaccount("Test"));
+		//$bitcoin->removeaddress("33GHzp9Gx9Ftd3jP2Rpto24MUm2fw6cxhh");
+	}
+
+
 	public function walletnotify_post(){
 
 	}
