@@ -24,7 +24,12 @@ class Api extends REST_Controller {
 		$bitcoin = $this->connect();
 
 		//print_r($bitcoin->getnewaddress("Test"));
-		$this->response($bitcoin->getnewaddress($account));
+		$wallet = $bitcoin->getnewaddress($account);
+		$arv = [
+			"status" => (trim($wallet) ? "success" : "error"),
+			"wallet" => $wallet
+		];
+		$this->response($arv);
 		//print_r($bitcoin->getaddressesbyaccount("Test"));
 		//$bitcoin->removeaddress("33GHzp9Gx9Ftd3jP2Rpto24MUm2fw6cxhh");
 	}
