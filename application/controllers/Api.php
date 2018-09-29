@@ -42,6 +42,23 @@ class Api extends REST_Controller {
 
 	}
 
+	public function validate_post(){
+		$bitcoin = $this->connect();
+		
+		$wallet = $this->input->post("wallet");
+		$data = $bitcoin->getaddressesbyaccount("SmartExchange");
+		if(in_array($wallet, $data)){
+			$arv = [
+				"status" => "success",
+				"wallet" => $wallet
+			];
+		}else{
+			$arv = [
+				"status" => "error"
+			];
+		}
+		$this->response($arv);
+	}
 	public function deposit_get(){
 		$bitcoin = $this->connect();
 		
@@ -60,6 +77,6 @@ class Api extends REST_Controller {
 	// Send to base coin
 	private function sendtoBase(){
 		$bitcoin = $this->connect();
-		$bitcoin->walletpassphrase("anhkhoa@321","60");// unlock wallet
+		print_r($bitcoin->getbalance("3LXS6roX2KZTQcrQhYmeerwQ63tjZSuEkb",6));// unlock wallet
 	}
 }
