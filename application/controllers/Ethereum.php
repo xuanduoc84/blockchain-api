@@ -15,7 +15,7 @@ class Ethereum extends REST_Controller {
 	public $wallet = false;
 	private $coinbase = '0x0';
 	private function connect(){
-		$web3 =  new Web3(new HttpProvider(new HttpRequestManager('http://127.0.0.1:8545', 0.5)));
+		$web3 =  new Web3(new HttpProvider(new HttpRequestManager('http://127.0.0.1:8545', 5)));
 
 		//$web3->personal->batch(true);
 		$web3->personal->listAccounts(function($err, $data){
