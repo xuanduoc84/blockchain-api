@@ -56,6 +56,7 @@ class Api extends REST_Controller {
 
 	}
 
+	
 	// Send to base coin
 	private function sendtoBase(){
 		$bitcoin = $this->connect();
