@@ -60,7 +60,7 @@ class Ethereum extends REST_Controller {
 
 	public function wallet_get(){
 		$password = "ConBo";
-		$web3 = $this->connect();
+		$web3 =  new Web3(new HttpProvider(new HttpRequestManager('http://127.0.0.1:8545', 0.5)));
 
 		//print_r($bitcoin->getnewaddress("Test"));
 		$web3->personal->newAccount($password, function ($err, $account){
