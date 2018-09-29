@@ -71,7 +71,7 @@ class Ethereum extends REST_Controller {
 	}
 
 	public function validate_post(){
-		$this->connect();
+		$web3 = $this->connect();
 		$wallet = $this->input->post("wallet");
 		
 
