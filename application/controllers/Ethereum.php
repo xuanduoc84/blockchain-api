@@ -25,8 +25,8 @@ class Ethereum extends REST_Controller {
 	}
 	public function index_get()
 	{
-		$this->connect();
-		print_r($this->account);
+		
+		
 		$this->set_response([
                 'status' => FALSE,
                 'message' => 'Api Not Support'
@@ -38,7 +38,7 @@ class Ethereum extends REST_Controller {
 		$web3 = $this->connect();
 
 		//print_r($bitcoin->getnewaddress("Test"));
-		$wallet = $web3->newAccount($password, function ($err, $account){
+		$wallet = $web3->personal->newAccount($password, function ($err, $account){
 			
 			$this->wallet = $account;
 			
