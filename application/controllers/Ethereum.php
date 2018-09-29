@@ -1,18 +1,32 @@
 <?php
+use Web3\Web3;
+use Web3\Providers\HttpProvider;
+use Web3\RequestManagers\HttpRequestManager;
 defined('BASEPATH') OR exit('No direct script access allowed');
 require APPPATH . 'libraries/REST_Controller.php';
 require APPPATH . 'libraries/Format.php';
-require APPPATH . 'libraries/Bitcoin.php';
 
-class Api extends REST_Controller {
-	
-	
 
+
+
+class Ethereum extends REST_Controller {
+	
+	public $account = [];
+	public $wallet = false;
+	private $coinbase = '0x0';
 	private function connect(){
-		return new Bitcoin($this->config->item("rpc_username"), $this->config->item("rpc_password"), $this->config->item("rpc_server"), $this->config->item("rpc_port"));
+		$web3 =  new Web3(new HttpProvider(new HttpRequestManager('http://127.0.0.1:8545', 0.5)));
+
+		//$web3->personal->batch(true);
+		$web3->personal->listAccounts(function($err, $data){
+			$this->account = $data;
+		});
+		return $web3;
 	}
 	public function index_get()
 	{
+		$this->connect();
+		print_r($this->account);
 		$this->set_response([
                 'status' => FALSE,
                 'message' => 'Api Not Support'
@@ -20,14 +34,18 @@ class Api extends REST_Controller {
 	}
 
 	public function wallet_post(){
-		$account = $this->input->post("account");
-		$bitcoin = $this->connect();
+		$password = $this->input->post("account");
+		$web3 = $this->connect();
 
 		//print_r($bitcoin->getnewaddress("Test"));
-		$wallet = $bitcoin->getnewaddress("SmartExchange");
+		$wallet = $web3->newAccount($password, function ($err, $account){
+			
+			$this->wallet = $account;
+			
+		});
 		$arv = [
-			"status" => (trim($wallet) ? "success" : "error"),
-			"wallet" => $wallet
+			"status" => (trim($this->wallet) ? "success" : "error"),
+			"wallet" => $this->wallet
 		];
 		$this->response($arv);
 		//print_r($bitcoin->getaddressesbyaccount("Test"));
@@ -43,11 +61,10 @@ class Api extends REST_Controller {
 	}
 
 	public function validate_post(){
-		$bitcoin = $this->connect();
-		
+		$this->connect();
 		$wallet = $this->input->post("wallet");
-		$data = $bitcoin->getaddressesbyaccount("SmartExchange");
-		if(in_array($wallet, $data)){
+		
+		if(in_array($wallet, $this->account)){
 			$arv = [
 				"status" => "success",
 				"wallet" => $wallet
@@ -59,16 +76,18 @@ class Api extends REST_Controller {
 		}
 		$this->response($arv);
 	}
+
+
 	public function deposit_get(){
 		$bitcoin = $this->connect();
 		
-		$data = $bitcoin->getaddressesbyaccount("SmartExchange");
-		
-		if(is_array($data)){
-
-			foreach ($data as $key => $value) {
-				print_r($value);
-			}
+		foreach ($this->account as $key => $value) {
+			$web3->eth->getBalance($value, function ($err, $balance) {
+				if((float)$balance->toString() > 0.001){
+					echo 'Balance: ' . $balance->toString() . PHP_EOL;
+				}
+				
+			});
 		}
 
 	}
