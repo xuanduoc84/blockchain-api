@@ -44,8 +44,9 @@ class Api extends REST_Controller {
 
 	public function deposit_get(){
 		$bitcoin = $this->connect();
-		print_r($bitcoin);
+		
 		$data = $bitcoin->getaddressesbyaccount("SmartExchange");
+		print_r($data);
 		if(is_array($data)){
 
 			foreach ($data as $key => $value) {
