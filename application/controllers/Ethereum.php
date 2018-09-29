@@ -44,7 +44,7 @@ class Ethereum extends REST_Controller {
 			//$this->wallet = $account;
 			$arv = [
 				"status" => (trim($account) ? "success" : "error"),
-				"wallet" => "0x".$account
+				"wallet" => $account
 			];
 			$this->response($arv);
 			exit();
