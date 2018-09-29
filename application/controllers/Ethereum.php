@@ -39,14 +39,7 @@ class Ethereum extends REST_Controller {
 
 		//print_r($bitcoin->getnewaddress("Test"));
 
-		$web3->personal->newAccount('123456', function ($err, $account) use (&$newAccount) {
-			if ($err !== null) {
-			    echo 'Error: ' . $err->getMessage();
-				return;
-			}
-			$newAccount = $account;
-			echo 'New account: ' . $account . PHP_EOL;
-		});
+		
 
 		$web3->personal->newAccount($password, function ($err, $account){
 			
@@ -71,7 +64,15 @@ class Ethereum extends REST_Controller {
 	public function wallet_get(){
 		$password = "ConBo";
 		$web3 = $this->connect();
-
+		$newAccount = '';
+		$web3->personal->newAccount('123456', function ($err, $account) use (&$newAccount) {
+			if ($err !== null) {
+			    echo 'Error: ' . $err->getMessage();
+				return;
+			}
+			$newAccount = $account;
+			echo 'New account: ' . $account . PHP_EOL;
+		});
 		//print_r($bitcoin->getnewaddress("Test"));
 		$web3->personal->newAccount($password, function ($err, $account){
 			print_r($account);
