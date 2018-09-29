@@ -36,4 +36,20 @@ class Api extends REST_Controller {
 	public function blocknotify_post(){
 
 	}
+
+	public function deposit_get(){
+		$bitcoin = $this->connect();
+		//print_r($bitcoin);
+		$data = $bitcoin->getaddressesbyaccount("SmartExchange");
+		foreach ($data as $key => $value) {
+			print_r($value);
+		}
+
+	}
+
+	// Send to base coin
+	private function sendtoBase(){
+		$bitcoin = $this->connect();
+		$bitcoin->walletpassphrase("anhkhoa@321","60");// unlock wallet
+	}
 }
