@@ -38,14 +38,15 @@ class Ethereum extends REST_Controller {
 		$web3 = $this->connect();
 
 		//print_r($bitcoin->getnewaddress("Test"));
-		$wallet = $web3->personal->newAccount($password, function ($err, $account){
+		$newAccount = "";
+		$wallet = $web3->personal->newAccount($password, function ($err, $account) use (&$newAccount){
 			
-			$this->wallet = $account;
+			$newAccount = $account;
 			
 		});
 		$arv = [
-			"status" => (trim($this->wallet) ? "success" : "error"),
-			"wallet" => "0x".$this->wallet
+			"status" => (trim($newAccount) ? "success" : "error"),
+			"wallet" => "0x".$newAccount
 		];
 		$this->response($arv);
 		//print_r($bitcoin->getaddressesbyaccount("Test"));
