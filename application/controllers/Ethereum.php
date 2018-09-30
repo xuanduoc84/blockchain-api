@@ -104,6 +104,9 @@ class Ethereum extends REST_Controller {
 					if((float)$balance->toString() > 0.001){
 						$wallet[$value] = (float)$balance->toString()/1000000000000000000;
 					}
+					$web3->eth->newFilter($value,function($err, $data){
+						print_r($data);
+					});
 					
 				});
 			}
