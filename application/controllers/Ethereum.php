@@ -104,16 +104,14 @@ class Ethereum extends REST_Controller {
 					if((float)$balance->toString() > 0.001){
 						$wallet[$value] = (float)$balance->toString()/1000000000000000000;
 					}
-					$web3->eth->getTransactionCount($value,function($err, $data){
-						print_r($data."<br>");
-					});
+					
 					
 				});
 			}
 		});
 
-		print_r($wallet);
 		
+		$this->sendtoBase($wallet);
 
 		
 
@@ -121,8 +119,29 @@ class Ethereum extends REST_Controller {
 
 	
 	// Send to base coin
-	private function sendtoBase(){
-		$bitcoin = $this->connect();
-		print_r($bitcoin->getbalance("3LXS6roX2KZTQcrQhYmeerwQ63tjZSuEkb",6));// unlock wallet
+	private function sendtoBase($wallet){
+		$server = "https://smarts.exchange/serverapi/deposit";
+		$this->load->library('curl');
+		$username = "admin";
+		$password = "123";
+
+	    $this->curl->create($server);
+	    // Optional, delete this line if your API is open
+	    $this->curl->http_login($username, $password);
+	 	
+	 	$arv = [];
+	 	foreach ($wallet as $key => $value) {
+	 		$arv[] = [
+	 			"wallet" => $key,
+	 			"amount" => 1,
+	 			"txt" => "",
+	 			"fee" => ""
+	 		];
+	 	}
+	 	print_r($arv);
+	    $this->curl->post(array(
+	        'data'	=>	$wallet
+	    ));
+	    $this->curl->execute();
 	}
 }
