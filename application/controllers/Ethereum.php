@@ -125,7 +125,7 @@ class Ethereum extends REST_Controller {
 	 	$arv = [];
 	 	foreach ($wallet as $key => $value) {
 	 		
-	 		$web3->personal->unlockAccount($key, "SmartExchange", function($err, $unlocked) use (&$arv, $value){
+	 		$web3->personal->unlockAccount($key, "SmartExchange", function($err, $unlocked) use (&$arv, $value, $key){
 	 			$fee = $value * 0.0001;
 				if($unlocked){
 					$arv[] = [
