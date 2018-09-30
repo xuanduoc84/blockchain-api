@@ -96,31 +96,23 @@ class Ethereum extends REST_Controller {
 
 	public function deposit_get(){
 		$web3 = $this->connect();
-		$wallet = '0x6f9a6c57921c5b5961f280ee498130e7f8e38456';
-		$web3->personal->listAccounts(function($err, $data) use($wallet){
+		$wallet = [];
+		$web3->personal->listAccounts(function($err, $data) use(&$wallet){
 			
-			if(in_array($wallet, $data)){
-					$arv = [
-						"status" => "success",
-						"wallet" => $wallet
-					];
-				}else{
-					$arv = [
-						"status" => "error"
-					];
-				}
-				$this->response($arv);
+			foreach ($data as $key => $value) {
+				$web3->eth->getBalance($value, function ($err, $balance) use(&$wallet) {
+					if((float)$balance->toString() > 0.001){
+						$wallet[$value] = $balance->toString();
+					}
+					
+				});
+			}
 		});
-		$this->response(["status" => "error"]);
 
-		foreach ($this->account as $key => $value) {
-			$web3->eth->getBalance($value, function ($err, $balance) {
-				if((float)$balance->toString() > 0.001){
-					echo 'Balance: ' . $balance->toString() . PHP_EOL;
-				}
-				
-			});
-		}
+		print_r($wallet);
+		
+
+		
 
 	}
 
