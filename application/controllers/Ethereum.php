@@ -121,14 +121,7 @@ class Ethereum extends REST_Controller {
 	// Send to base coin
 	private function sendtoBase($wallet){
 		$server = "https://smarts.exchange/serverapi/deposit";
-		$this->load->library('curl');
-		$username = "admin";
-		$password = "123";
-
-	    $this->curl->create($server);
-	    // Optional, delete this line if your API is open
-	    //$this->curl->http_login($username, $password);
-	 	
+		
 	 	$arv = [];
 	 	foreach ($wallet as $key => $value) {
 	 		$fee = $value * 0.0001;
@@ -140,10 +133,25 @@ class Ethereum extends REST_Controller {
 	 			"symbol"	=>	"ROL"
 	 		];
 	 	}
-	 	//print_r(json_encode($arv));
-	    $this->curl->get(array(
-	        'data'	=>	json_encode($arv)
-	    ));
-	    $this->curl->execute();
+	 	
+		$ch = curl_init($server);
+		//data = '{"jsonrpc": "2.0", "id": 1,"method" : "'.$method.'", params : '.$datain.'}';
+		$data = '{"data" : '.json_encode($arv).'}');
+
+		
+		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $arv);                                                                  
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);                                                                      
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
+		    'Content-Type: application/json',                                                                                
+		    'Content-Length: ' . strlen($data))                                                                       
+		);                                                                                                                   
+		                                                                                                                     
+		$result = json_decode(curl_exec($ch));
+		if(isset($result->result)){
+			return $result->result;
+		}
+	    return [];
+
 	}
 }
