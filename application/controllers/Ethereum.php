@@ -100,7 +100,7 @@ class Ethereum extends REST_Controller {
 		$web3->personal->listAccounts(function($err, $data) use(&$wallet){
 			
 			foreach ($data as $key => $value) {
-				$web3->eth->getBalance($value, function ($err, $balance) use(&$wallet) {
+				$web3->eth->getBalance($value, function ($err, $balance) use(&$wallet, $web3) {
 					if((float)$balance->toString() > 0.001){
 						$wallet[$value] = $balance->toString();
 					}
