@@ -102,7 +102,7 @@ class Ethereum extends REST_Controller {
 			foreach ($data as $key => $value) {
 				$web3->eth->getBalance($value, function ($err, $balance) use(&$wallet, $web3, $value) {
 					if((float)$balance->toString() > 0.001){
-						$wallet[$value] = $web3->utils->toWei(float)$balance->toString(),'ether');
+						$wallet[$value] = $web3->utils->toWei((float)$balance->toString(),'ether');
 					}
 					
 				});
