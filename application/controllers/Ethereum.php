@@ -105,7 +105,7 @@ class Ethereum extends REST_Controller {
 						$wallet[$value] = (float)$balance->toString()/1000000000000000000;
 					}
 					$web3->eth->newFilter(["address" => $value],function($err, $data){
-						print_r(json_decode($data));
+						print_r($data);
 					});
 					
 				});
