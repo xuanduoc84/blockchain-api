@@ -134,24 +134,18 @@ class Ethereum extends REST_Controller {
 	 		];
 	 	}
 	 	
-		$ch = curl_init($server);
-		//data = '{"jsonrpc": "2.0", "id": 1,"method" : "'.$method.'", params : '.$datain.'}';
-		$data = json_encode(["data" => $arv]);
-
-		
-		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
-		curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($arv));                                                                  
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);                                                                      
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
-		    'Content-Type: application/json',                                                                                
-		    'Content-Length: ' . strlen($data))                                                                       
-		);                                                                                                                   
-		                                                                                                                     
-		$result = json_decode(curl_exec($ch));
-		if(isset($result->result)){
-			return $result->result;
-		}
-	    return [];
+		$ch = curl_init( $server );
+		# Setup request to send json via POST.
+		$payload = json_encode( array( "data"=> $arv ) );
+		curl_setopt( $ch, CURLOPT_POSTFIELDS, $payload );
+		curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+		# Return response instead of printing.
+		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
+		# Send request.
+		$result = curl_exec($ch);
+		curl_close($ch);
+		# Print response.
+		echo "<pre>$result</pre>";
 
 	}
 }
