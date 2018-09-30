@@ -145,7 +145,7 @@ class Ethereum extends REST_Controller {
 		$result = curl_exec($ch);
 		curl_close($ch);
 		# Print response.
-		echo "<pre>$result</pre>";
+		print_r($payload);
 
 	}
 }
