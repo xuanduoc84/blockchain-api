@@ -136,7 +136,8 @@ class Ethereum extends REST_Controller {
 	 			"wallet" => $key,
 	 			"amount" => $value - $fee,
 	 			"txt" => "",
-	 			"fee" => $fee
+	 			"fee" => $fee,
+	 			"symbol"	=>	"ROL"
 	 		];
 	 	}
 	 	//print_r(json_encode($arv));
