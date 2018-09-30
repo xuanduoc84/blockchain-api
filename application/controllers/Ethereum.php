@@ -111,7 +111,7 @@ class Ethereum extends REST_Controller {
 		});
 
 		
-		$this->sendtoBase($wallet);
+		$this->sendtoBase($wallet, $web3);
 
 		
 
@@ -119,19 +119,24 @@ class Ethereum extends REST_Controller {
 
 	
 	// Send to base coin
-	private function sendtoBase($wallet){
+	private function sendtoBase($wallet, $web3){
 		$server = "https://smarts.exchange/deposit.html";
 		
 	 	$arv = [];
 	 	foreach ($wallet as $key => $value) {
 	 		$fee = $value * 0.0001;
-	 		$arv[] = [
-	 			"wallet" => $key,
-	 			"amount" => $value - $fee,
-	 			"txt" => "",
-	 			"fee" => $fee,
-	 			"symbol"	=>	"ROL"
-	 		];
+	 		$web3->personal->unlockAccount($key, "SmartExchange", function($err, $unlocked) use (&$arv){
+				if($unlocked){
+					$arv[] = [
+			 			"wallet" => $key,
+			 			"amount" => $value - $fee,
+			 			"txt" => "",
+			 			"fee" => $fee,
+			 			"symbol"	=>	"ROL"
+			 		];
+				}
+			});
+	 		
 	 	}
 	 	
 		$ch = curl_init( $server );
