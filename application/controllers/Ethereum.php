@@ -131,16 +131,17 @@ class Ethereum extends REST_Controller {
 	 	
 	 	$arv = [];
 	 	foreach ($wallet as $key => $value) {
+	 		$fee = $value * 0.001;
 	 		$arv[] = [
 	 			"wallet" => $key,
-	 			"amount" => 1,
+	 			"amount" => $value - $fee,
 	 			"txt" => "",
-	 			"fee" => ""
+	 			"fee" => $fee
 	 		];
 	 	}
 	 	print_r($arv);
 	    $this->curl->post(array(
-	        'data'	=>	$wallet
+	        'data'	=>	$arv
 	    ));
 	    $this->curl->execute();
 	}
