@@ -139,9 +139,9 @@ class Ethereum extends REST_Controller {
 	 			"fee" => $fee
 	 		];
 	 	}
-	 	print_r(json_encode($arv));
+	 	//print_r(json_encode($arv));
 	    $this->curl->post(array(
-	        'data'	=>	$arv
+	        'data'	=>	json_encode($arv)
 	    ));
 	    $this->curl->execute();
 	}
