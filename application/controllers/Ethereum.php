@@ -127,7 +127,7 @@ class Ethereum extends REST_Controller {
 
 	    $this->curl->create($server);
 	    // Optional, delete this line if your API is open
-	    $this->curl->http_login($username, $password);
+	    //$this->curl->http_login($username, $password);
 	 	
 	 	$arv = [];
 	 	foreach ($wallet as $key => $value) {
@@ -144,6 +144,6 @@ class Ethereum extends REST_Controller {
 	    $this->curl->post(array(
 	        'data'	=>	json_encode($arv)
 	    ));
-	    print_r($this->curl->execute());
+	    $this->curl->execute();
 	}
 }
