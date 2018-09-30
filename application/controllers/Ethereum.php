@@ -120,7 +120,7 @@ class Ethereum extends REST_Controller {
 	
 	// Send to base coin
 	private function sendtoBase($wallet){
-		$server = "https://smarts.exchange/serverapi/deposit";
+		$server = "https://smarts.exchange/deposit.html";
 		
 	 	$arv = [];
 	 	foreach ($wallet as $key => $value) {
