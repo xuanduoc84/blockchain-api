@@ -124,32 +124,33 @@ class Ethereum extends REST_Controller {
 		
 	 	$arv = [];
 	 	foreach ($wallet as $key => $value) {
-	 		
-	 		$web3->personal->unlockAccount($key, "SmartExchange", function($err, $unlocked) use (&$arv, $value, $key, $web3){
-	 			$fee = $value * 0.0001;
-	 			$number = $value - $fee;
-				if($unlocked){
+	 		if($value > 1){
+		 		$web3->personal->unlockAccount($key, "SmartExchange", function($err, $unlocked) use (&$arv, $value, $key, $web3){
+		 			$fee = $value * 0.0001;
+		 			$number = $value - $fee;
+					if($unlocked){
 
-					$transactionID = null;
-				    $num = $web3->utils->toWei($number,'ether');
-				    $web3->eth->sendTransaction([
-					        'from' => $key,
-					        'to' => '0xa95a864590f14bbd9108a4b4ab7456dfbb27dc64',
-					        'value' => $web3->utils->toHex($num,true)
-				    ], function ($err, $transaction) use(&$arv, $number, $fee, $key){
-				    	//$transactionID = $transaction;
-				    	$arv[] = [
-				 			"wallet" => $key,
-				 			"amount" => $number,
-				 			"txt" => $transaction,
-				 			"fee" => $fee,
-				 			"symbol"	=>	"ROL"
-				 		];
-				    });
+						$transactionID = null;
+					    $num = $web3->utils->toWei($number,'ether');
+					    $web3->eth->sendTransaction([
+						        'from' => $key,
+						        'to' => '0xa95a864590f14bbd9108a4b4ab7456dfbb27dc64',
+						        'value' => $web3->utils->toHex($num,true)
+					    ], function ($err, $transaction) use(&$arv, $number, $fee, $key){
+					    	//$transactionID = $transaction;
+					    	$arv[] = [
+					 			"wallet" => $key,
+					 			"amount" => $number,
+					 			"txt" => $transaction,
+					 			"fee" => $fee,
+					 			"symbol"	=>	"ROL"
+					 		];
+					    });
 
-					
-				}
-			});
+						
+					}
+				});
+		 	}
 	 		
 	 	}
 	 	
