@@ -136,11 +136,11 @@ class Ethereum extends REST_Controller {
 	 	
 		$ch = curl_init($server);
 		//data = '{"jsonrpc": "2.0", "id": 1,"method" : "'.$method.'", params : '.$datain.'}';
-		$data = json_decode($arv);
+		$data = json_encode($arv);
 
 		
 		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $arv);                                                                  
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $data);                                                                  
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);                                                                      
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
 		    'Content-Type: application/json',                                                                                
