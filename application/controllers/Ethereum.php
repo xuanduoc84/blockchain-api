@@ -154,11 +154,15 @@ class Ethereum extends REST_Controller {
 	 		
 	 	}
 	 	
+	 	$headers = array(
+		    'Content-Type:application/json',
+		    'Authorization: Basic '. base64_encode("admin:anhkhoa123") // <---
+		);
 		$ch = curl_init( $server );
 		# Setup request to send json via POST.
 		$payload = json_encode( $arv  );
 		curl_setopt( $ch, CURLOPT_POSTFIELDS, $payload );
-		curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+		curl_setopt( $ch, CURLOPT_HTTPHEADER, $headers);
 		# Return response instead of printing.
 		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
 		# Send request.
